@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inventario</title>
+</head>
+<body>
+	<div class="page-header">
+		<a href="{% url 'index' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+		<h1><a href="/inventario">Inventario CC4401</a></h1>
+	</div>
+	<div class="content container">
+		<form method="POST">{% csrf_token %}
+			<input type="text" name="product" placeholder="Ingrese un producto">
+			<button name="add" value="5" >Agregar</button>
+		</form>
+
+
+		<div class="row">
+			<div class="col-md-8">
+				{% if latest_products %}
+				<table style="width: 25%">
+					<tr>
+						<th></th>
+						<th>Producto</th>
+						<th>Cantidad</th>
+						<th></th>
+						<th></th>
+					</tr>
+					
+				    {% for product in latest_products %}
+				    <tr>
+						<td align="center"> 
+							<form method="POST"> {% csrf_token %}
+								<button name="remove" id="delete {{product.id}}" value=" {{ product.id }} ">X</button>
+							</form>
+						</td>
+				        <td align="center">{{ product.producto }}</td>
+				        <td align="center"> {{ product.amount }} </td>
+				        <td>
+				        	<form method="POST"> {% csrf_token %}
+								<button name="minus" value="{{product.id}}" >-</button>
+							</form>
+				        </td>
+						<td>
+							<form method="POST"> {% csrf_token %}
+								<button name="plus" value=" {{product.id}} ">+</button>
+							</form>
+						</td>
+					</tr>
+				    {% endfor %}
+				    </tr>
+					{% else %}
+				    	<p>No hay productos.</p>
+					{% endif %}
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
